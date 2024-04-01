@@ -35,6 +35,7 @@ ner_tags_inv = {v: k for k, v in ner_tags.items()}
 
 tokenizer = get_pretrained_tokenizer(model_id)
 model = MT5ForConditionalGeneration.from_pretrained(model_id)
+dataset = load_dataset("conll2003")
 
 
 def convert_ner_tags_to_label(sample, ner_tags_inv):
@@ -85,6 +86,7 @@ def evaluate(sample):
 
 
 def main():
+    global model, tokenizer, dataset
     model.cuda()
     model.eval()
 
@@ -95,6 +97,7 @@ def main():
     )
 
     print("> Make Prediction")
+    test_ds = dataset["test"]
     test_ds = test_ds.map(lambda example: evaluate(example))
 
     # Push dataset_NER to hub
