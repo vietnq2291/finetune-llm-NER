@@ -4,6 +4,13 @@ import torch
 from collections import defaultdict
 
 
+def get_pretrained_tokenizer(model_id):
+    tokenizer = MT5Tokenizer.from_pretrained(model_id)
+    tokenizer.bos_token = tokenizer.pad_token
+    tokenizer.sep_token = tokenizer.eos_token
+    return tokenizer
+
+
 MAX_LENGTH = 512
 model_id = "nqv2291/sft-mT5_base-NER"
 output_repo = "en-conll2003-evaluation-instruction_format"
@@ -28,13 +35,6 @@ ner_tags_inv = {v: k for k, v in ner_tags.items()}
 
 tokenizer = get_pretrained_tokenizer(model_id)
 model = MT5ForConditionalGeneration.from_pretrained(model_id)
-
-
-def get_pretrained_tokenizer(model_id):
-    tokenizer = MT5Tokenizer.from_pretrained(model_id)
-    tokenizer.bos_token = tokenizer.pad_token
-    tokenizer.sep_token = tokenizer.eos_token
-    return tokenizer
 
 
 def convert_ner_tags_to_label(sample, ner_tags_inv):
