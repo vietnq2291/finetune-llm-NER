@@ -1,5 +1,6 @@
 from datasets import load_dataset
 import json
+import re
 
 class NERDataset:
 
@@ -40,7 +41,7 @@ class NERDataset:
             self.dataset = self.dataset.map(self.conversations_to_instruction, remove_columns=self.dataset.column_names)
 
     # Helper functions
-    def get_clean_output(self, out)
+    def get_clean_output(self, out):
         out = out.replace('[NEWLINE]', '\n')
         out = re.sub(r"<pad> ### Response:", "", out, 1)
         out = re.sub(r"</s>$", "", out)

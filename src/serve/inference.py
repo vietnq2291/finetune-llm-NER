@@ -1,5 +1,4 @@
 import torch
-import re
 
 def predict(sample, model, tokenizer, clean_fn, output_style, max_length=512, verbose=False):
     test = tokenizer(sample, add_special_tokens=True)
