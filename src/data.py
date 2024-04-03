@@ -5,6 +5,7 @@ class NERDataset:
 
     def __init__(self):
         self.system_prompt = 'A virtual assistant answers questions from a user based on the provided paragraph.'
+        self.query_template = lambda entity_type: f'What describes {entity_type} in the text?'
         self.instruction_template = {
             'input': lambda text, query: (
                 "[S2S] "

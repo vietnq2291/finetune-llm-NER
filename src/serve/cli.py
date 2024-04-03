@@ -33,6 +33,10 @@ def main():
         entity_type = input("Entity type: ")
         if entity_type == "": break
 
+        inp = NER_dataset.instruction_template.input(
+            text,
+            NER_dataset.query_template(entity_type)
+        )
         out = predict(text, entity_type, NER_model.model, NER_tokenizer.tokenizer)
         print("Output:", out)
         print("----------------------------------")

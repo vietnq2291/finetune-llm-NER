@@ -1,3 +1,5 @@
+import torch
+
 
 def predict(sample, model, tokenizer, max_length=512, verbose=False):
     test = tokenizer(sample, add_special_tokens=True)
