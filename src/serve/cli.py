@@ -38,7 +38,7 @@ def main():
             text,
             NER_dataset.query_template(entity_type)
         )
-        out = predict(inp, NER_model.model, NER_tokenizer.tokenizer, output_style)
+        out = predict(inp, NER_model.model, NER_tokenizer.tokenizer, NER_dataset.get_clean_output, output_style)
         print("Output:", out)
         print("----------------------------------")
 

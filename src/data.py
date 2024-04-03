@@ -39,6 +39,19 @@ class NERDataset:
         if from_format == 'conversations' and to_format == 'instruction':
             self.dataset = self.dataset.map(self.conversations_to_instruction, remove_columns=self.dataset.column_names)
 
+    # Helper functions
+    def get_clean_output(self, out)
+        out = out.replace('[NEWLINE]', '\n')
+        out = re.sub(r"<pad> ### Response:", "", out, 1)
+        out = re.sub(r"</s>$", "", out)
+        out = out.strip()
+        
+        try:
+            out = eval(out)
+        except:
+            print('Warning: Output has incorrect format!')
+        return out
+
 
 if __name__=='__main__':
     dataset = NERDataset()
