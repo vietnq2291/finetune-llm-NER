@@ -13,7 +13,7 @@ class NERModel:
             self.setup = lambda x: None
 
     def from_pretrained(self, model_id):
-        if "mt5" in model_id:
+        if "t5" in model_id:
             model_class = T5ForConditionalGeneration
         else:
             model_class = AutoModel

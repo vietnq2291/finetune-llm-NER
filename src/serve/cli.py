@@ -11,11 +11,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_id")
     parser.add_argument("--max_length", default="512")
-
+    parser.add_argument("--output_style", default="formatted")
 
     args = parser.parse_args()
     model_id = args.model_id
     max_length = int(args.max_length)
+    output_style = args.output_style
 
     # Load model
     NER_model = NERModel('inference')
@@ -33,11 +34,11 @@ def main():
         entity_type = input("Entity type: ")
         if entity_type == "": break
 
-        inp = NER_dataset.instruction_template.input(
+        inp = NER_dataset.instruction_template['input'](
             text,
             NER_dataset.query_template(entity_type)
         )
-        out = predict(text, entity_type, NER_model.model, NER_tokenizer.tokenizer)
+        out = predict(inp, NER_model.model, NER_tokenizer.tokenizer, output_style)
         print("Output:", out)
         print("----------------------------------")
 
