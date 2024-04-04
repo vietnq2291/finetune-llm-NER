@@ -1,6 +1,7 @@
 from transformers import (
     AutoModel,
     T5ForConditionalGeneration,
+    AutoModelForCausalLM,
 )
 import torch
 
@@ -12,9 +13,11 @@ class NERModel:
         else:
             self.setup = lambda: None
 
-    def from_pretrained(self, model_id):
-        if "t5" in model_id:
+    def from_pretrained(self, model_id, desc):
+        if "t5" in desc:
             model_class = T5ForConditionalGeneration
+        elif "llama" in desc:
+            model_class = AutoModelForCausalLM
         else:
             model_class = AutoModel
         model = model_class.from_pretrained(model_id)

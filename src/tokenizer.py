@@ -5,8 +5,8 @@ from transformers import (
 
 
 class NERTokenizer:
-    def from_pretrained(self, model_id):
-        if "t5" in model_id:
+    def from_pretrained(self, model_id, desc):
+        if "t5" in desc:
             tokenizer_class = T5Tokenizer
         else:
             tokenizer_class = AutoTokenizer
@@ -14,4 +14,3 @@ class NERTokenizer:
 
         self.tokenizer.bos_token = self.tokenizer.pad_token
         self.tokenizer.sep_token = self.tokenizer.eos_token
-
