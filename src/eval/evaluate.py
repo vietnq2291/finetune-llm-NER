@@ -27,9 +27,27 @@ class NEREvaluator:
             preds.append(out)
 
         # Run evaluation
+        labels = [
+            self.eval_ds.parse_output(example["label"]) for example in eval_ds.dataset
+        ]
+        return self.evaluate(preds, labels)
 
     def evaluate(self, preds, labels):
-        return "evaluation result"
+        n_correct, n_pos_label, n_pos_pred = 0, 0, 0
+        for pred, label in zip(preds, labels):
+            for t in pred:
+                if t in label:
+                    n_correct += 1
+                n_pos_pred += 1
+            n_pos_label += len(label)
+        prec = n_correct / (n_pos_pred + 1e-10)
+        recall = n_correct / (n_pos_label + 1e-10)
+        f1 = 2 * prec * recall / (prec + recall + 1e-10)
+        return {
+            "precision": prec,
+            "recall": recall,
+            "f1": f1,
+        }
 
 
 if __name__ == "__main__":
@@ -60,3 +78,7 @@ if __name__ == "__main__":
     evaluator = NEREvaluator(NER_model.model, NER_tokenizer.tokenizer, eval_ds)
 
     # Run evaluation
+    eval_result = evaluator.run()
+    print(
+        f'Precision: {eval_result["precision"]}, Recall: {eval_result["recall"]}, F1: {eval_result["f1"]}'
+    )
