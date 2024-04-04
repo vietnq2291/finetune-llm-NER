@@ -35,10 +35,8 @@ class NEREvaluator:
     def evaluate(self, preds, labels):
         n_correct, n_pos_label, n_pos_pred = 0, 0, 0
         for pred, label in zip(preds, labels):
-            for t in pred:
-                if t in label:
-                    n_correct += 1
-                n_pos_pred += 1
+            n_correct += sum([1 if entity in label else 0 for entity in pred])
+            n_pos_pred += len(pred)
             n_pos_label += len(label)
         prec = n_correct / (n_pos_pred + 1e-10)
         recall = n_correct / (n_pos_label + 1e-10)
